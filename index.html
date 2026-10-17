@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#142a55">
+<meta name="description" content="Registro personal de marcaciones con copias de seguridad locales.">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<title>Mi Marcado Seguro</title>
+<style>
+:root{--navy:#142a55;--blue:#2457d6;--bg:#f2f5fa;--card:#fff;--ink:#19243a;--muted:#68758c;--line:#dfe6f0;--green:#117a52;--red:#b42332;--amber:#8b5a00}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial}header{background:linear-gradient(125deg,var(--navy),var(--blue));color:#fff;padding:24px 16px}.wrap{max-width:1100px;margin:auto;padding:0 16px}header .wrap{padding:0}h1{font-size:clamp(27px,4vw,38px);margin:0}header p{margin:5px 0 0;color:#dce7ff}.main{padding:18px 0 36px}.alert{padding:13px 15px;border-radius:12px;margin-bottom:14px;background:#fff6df;border:1px solid #f0d28c;color:#704900}.alert.good{background:#e8f8ef;border-color:#b6e6c9;color:#145b37}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;box-shadow:0 5px 18px #172b4d08;margin-bottom:13px}.card h2{font-size:18px;margin:0 0 12px}.clock{font-size:32px;font-weight:800;font-variant-numeric:tabular-nums}.muted{font-size:12px;color:var(--muted)}label{display:block;font-weight:700;font-size:13px;margin:11px 0 5px}input,select,textarea{font:inherit;width:100%;padding:10px 11px;border:1px solid #cbd5e1;border-radius:10px;background:white;color:var(--ink)}textarea{min-height:75px}button,.button{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:10px;padding:11px 13px;font:700 13px system-ui;cursor:pointer;text-decoration:none;gap:7px}button:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--blue);color:white}.green{background:var(--green);color:white}.soft{background:#edf2f9;color:#263751}.red{background:#fff0f0;color:var(--red);border:1px solid #ffd0d0}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.actions>*{flex:1}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{padding:11px;background:#f6f8fc;border-radius:11px}.stat strong{display:block;font-size:23px}.stat span{font-size:11px;color:var(--muted)}.tabs{display:flex;gap:7px;overflow:auto;padding:0 0 12px}.tab{white-space:nowrap;background:#e7edf7;color:#233452}.tab.active{background:var(--navy);color:white}.pane{display:none}.pane.active{display:block}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:690px}th,td{text-align:left;border-bottom:1px solid var(--line);padding:10px;font-size:12px;vertical-align:top}th{background:#f7f9fc;color:var(--muted);font-size:11px;text-transform:uppercase}.pill{display:inline-block;border-radius:99px;padding:3px 8px;font-size:10px;font-weight:800}.pill.in{background:#dcfce7;color:#166534}.pill.out{background:#dbeafe;color:#1d4ed8}.pill.warn{background:#fef3c7;color:#92400e}.empty{text-align:center;color:var(--muted);padding:25px}.smallbtn{padding:6px 8px;font-size:11px}.status{font-weight:800}.status.ok{color:var(--green)}.status.warn{color:var(--amber)}.status.bad{color:var(--red)}footer{font-size:11px;color:var(--muted);text-align:center;padding:12px}.hidden{display:none!important}.hint{font-size:12px;color:var(--muted);margin-top:6px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.card{padding:14px}.clock{font-size:29px}.wrap{padding:0 12px}header{padding:20px 14px}.stats{grid-template-columns:repeat(3,1fr)}}
+@media print{body{background:white}header{background:white;color:#111;padding:0 0 10px}.no-print,.tabs,footer,.alert{display:none!important}.wrap{max-width:none;padding:0}.card{box-shadow:none;break-inside:avoid}.pane{display:block!important}.grid{grid-template-columns:1fr 1fr}table{min-width:0}th,td{font-size:9px;padding:5px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>Mi Marcado Seguro</h1><p>Registro personal · Historial · Copias de seguridad</p></div></header>
+<main class="wrap main">
+<div class="alert"><strong>Protección de datos:</strong> el sistema guarda registros en este dispositivo y ofrece copias de seguridad descargables. Una web estática no puede garantizar recuperación si pierdes el celular, borras los datos o el navegador elimina su almacenamiento. Exporta copias y guárdalas también en un lugar seguro.</div>
+<div id="storageAlert" class="alert good">Comprobando almacenamiento local…</div>
+<div class="grid">
+<section class="card">
+<h2>Reloj y marcación</h2><div class="clock" id="clock">--:--:--</div><div id="today" class="muted"></div>
+<div class="actions no-print"><button class="green" onclick="punch('Ingreso')">＋ Registrar ingreso</button><button class="primary" onclick="punch('Salida')">↗ Registrar salida</button></div>
+<div class="hint">Usa la hora del dispositivo. El registro personal no reemplaza el reloj oficial de la institución.</div>
+</section>
+<section class="card">
+<h2>Datos de referencia</h2>
+<label>Nombre completo</label><input id="employee" placeholder="Nombre y apellidos">
+<label>Institución / unidad</label><input id="workplace" placeholder="Ej. SEGIP — Tarija">
+<label>Horario de trabajo</label><input id="schedule" placeholder="Ej. 08:00 a 16:00">
+<label>Observación para la siguiente marcación</label><input id="defaultNote" placeholder="Opcional">
+<div class="actions no-print"><button class="soft" onclick="saveProfile()">Guardar datos</button></div>
+</section>
+<section class="card">
+<h2>Resumen del mes</h2><div class="stats"><div class="stat"><strong id="nPunch">0</strong><span>Marcaciones</span></div><div class="stat"><strong id="nInc">0</strong><span>Incidencias</span></div><div class="stat"><strong id="nDays">0</strong><span>Días registrados</span></div></div>
+<label>Mes del informe</label><input id="monthFilter" type="month" onchange="render()">
+<div class="actions no-print"><button class="soft" onclick="window.print()">Imprimir / Guardar PDF</button><button class="soft" onclick="exportCSV()">Exportar CSV</button></div>
+</section>
+</div>
+<nav class="tabs no-print">
+<button class="tab active" data-pane="history">Historial</button><button class="tab" data-pane="incidents">Incidencias</button><button class="tab" data-pane="backup">Copias de seguridad</button><button class="tab" data-pane="settings">Configuración</button>
+</nav>
+<section id="history" class="pane active card">
+<h2>Historial de marcaciones</h2>
+<p class="muted">Cada registro incluye fecha, hora, tipo y una referencia local. No edites ni presentes datos como prueba oficial si no corresponden a lo ocurrido.</p>
+<div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Hora</th><th>Tipo</th><th>Funcionario</th><th>Observación</th><th class="no-print">Acción</th></tr></thead><tbody id="punchRows"></tbody></table><div id="punchEmpty" class="empty">Aún no hay marcaciones.</div></div>
+</section>
+<section id="incidents" class="pane card">
+<h2>Registrar una incidencia</h2><p class="muted">Anota problemas reales con el sistema oficial, olvidos, solicitudes de regularización y los respaldos disponibles.</p>
+<label>Fecha y hora de la incidencia</label><input id="incDate" type="datetime-local">
+<label>Tipo de incidencia</label><select id="incType"><option>Problema con reloj biométrico</option><option>Marcación no reflejada en sistema oficial</option><option>Olvido de marcación</option><option>Solicitud de regularización</option><option>Otra incidencia</option></select>
+<label>Detalle objetivo</label><textarea id="incNote" placeholder="Qué ocurrió, a quién informaste y qué respaldo tienes."></textarea>
+<label>Referencia de respaldo (opcional)</label><input id="incProof" placeholder="Ej. correo del 16/10, número de reporte, nombre de supervisor">
+<div class="actions no-print"><button class="primary" onclick="addIncident()">Guardar incidencia</button></div>
+<h2 style="margin-top:22px">Incidencias guardadas</h2><div class="table-wrap"><table><thead><tr><th>Fecha y hora</th><th>Tipo</th><th>Detalle</th><th>Referencia</th><th class="no-print">Acción</th></tr></thead><tbody id="incRows"></tbody></table><div id="incEmpty" class="empty">Aún no hay incidencias.</div></div>
+</section>
+<section id="backup" class="pane card">
+<h2>Centro de copias de seguridad</h2>
+<div class="alert good"><strong>Recomendación:</strong> crea una copia JSON al final de cada jornada y guárdala fuera del navegador. Una copia descargada permite restaurar el historial en este mismo sistema.</div>
+<p>La aplicación guarda automáticamente una copia de trabajo en IndexedDB y una copia secundaria pequeña en el almacenamiento local cuando el navegador lo permite. Estas dos ubicaciones siguen estando en el mismo celular; no son una copia remota.</p>
+<div class="actions no-print"><button class="green" onclick="exportBackup()">Descargar copia completa (.json)</button><button class="soft" onclick="$('importFile').click()">Restaurar copia JSON</button><input id="importFile" type="file" accept=".json,application/json" class="hidden" onchange="importBackup(event)"></div>
+<div class="actions no-print"><button class="soft" onclick="exportCSV()">Descargar historial CSV</button><button class="soft" onclick="window.print()">Imprimir informe / PDF</button></div>
+<label>Última copia descargada</label><div id="lastBackup" class="status warn">Todavía no has descargado una copia.</div>
+<label>Estado de almacenamiento del navegador</label><div id="storageStatus" class="muted">Comprobando…</div>
+<p class="hint">No subas copias con datos personales a repositorios públicos. Si guardas el JSON en una nube personal, asegúrate de que la cuenta esté protegida y no sea compartida.</p>
+</section>
+<section id="settings" class="pane card">
+<h2>Configuración y mantenimiento</h2>
+<label>Zona horaria de referencia</label><input value="Se usa la zona horaria configurada en el celular" disabled>
+<label>Nombre de este dispositivo (opcional)</label><input id="deviceName" placeholder="Ej. Mi celular personal">
+<div class="actions no-print"><button class="soft" onclick="saveProfile()">Guardar datos de referencia</button><button class="soft" onclick="checkStorage()">Comprobar almacenamiento</button></div>
+<h2 style="margin-top:22px">Reglas para evitar pérdidas</h2>
+<ul><li>No borres los datos del sitio ni del navegador.</li><li>Descarga copias JSON con regularidad y conserva más de una.</li><li>Antes de cambiar de celular, exporta una copia e impórtala en el nuevo equipo.</li><li>El historial local no se sincroniza automáticamente entre dispositivos.</li><li>La hora depende del reloj del celular; registra también incidencias con respaldos verificables.</li></ul>
+<div class="actions no-print"><button class="red" onclick="clearAll()">Borrar todos los datos de este dispositivo</button></div>
+</section>
+<footer>Mi Marcado Seguro · La app no está conectada al sistema de asistencia de tu empleador ni verifica marcaciones oficiales.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const DB_NAME='MiMarcadoSeguroDB', DB_VERSION=1, STORE='records';
+let db=null, punches=[], incidents=[], profile={};
+const rid=()=>crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2);
+const isoNow=()=>new Date().toISOString();
+function localDateInput(){let d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16)}
+function openDB(){return new Promise((resolve,reject)=>{if(!('indexedDB'in window)){resolve(null);return}let req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=()=>{let d=req.result;if(!d.objectStoreNames.contains(STORE))d.createObjectStore(STORE,{keyPath:'key'})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+function dbGet(key){return new Promise((resolve,reject)=>{if(!db){resolve(null);return}let r=db.transaction(STORE,'readonly').objectStore(STORE).get(key);r.onsuccess=()=>resolve(r.result?.value??null);r.onerror=()=>reject(r.error)})}
+function dbSet(key,value){return new Promise((resolve,reject)=>{if(!db){resolve(false);return}let tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put({key,value});tx.oncomplete=()=>resolve(true);tx.onerror=()=>reject(tx.error)})}
+function dbDel(key){return new Promise(resolve=>{if(!db){resolve();return}let tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(key);tx.oncomplete=resolve;tx.onerror=resolve})}
+async function persist(){let data={punches,incidents,profile,updatedAt:isoNow()};try{await dbSet('all',data)}catch(e){}try{localStorage.setItem('miMarcadoSafeMirror',JSON.stringify(data))}catch(e){}render()}
+async function load(){try{db=await openDB()}catch(e){db=null}let data=null;try{data=await dbGet('all')}catch(e){}if(!data){try{data=JSON.parse(localStorage.getItem('miMarcadoSafeMirror')||'null')}catch(e){}}if(data){punches=Array.isArray(data.punches)?data.punches:[];incidents=Array.isArray(data.incidents)?data.incidents:[];profile=data.profile||{}}try{const old=JSON.parse(localStorage.getItem('miMarcado_profile')||'null');if(old&&!profile.employee)profile=old}catch(e){}fillProfile();checkStorage();render()}
+function fillProfile(){$('employee').value=profile.employee||'';$('workplace').value=profile.workplace||'';$('schedule').value=profile.schedule||'';$('defaultNote').value=profile.defaultNote||'';$('deviceName').value=profile.deviceName||''}
+async function saveProfile(){profile={employee:$('employee').value.trim(),workplace:$('workplace').value.trim(),schedule:$('schedule').value.trim(),defaultNote:$('defaultNote').value.trim(),deviceName:$('deviceName').value.trim()};await persist();alert('Datos de referencia guardados en este dispositivo.')}
+async function punch(type){let now=isoNow();punches.unshift({id:rid(),ts:now,type,employee:profile.employee||$('employee').value.trim()||'Sin especificar',workplace:profile.workplace||$('workplace').value.trim(),note:profile.defaultNote||'',device:profile.deviceName||'',source:'Registro local'});await persist();alert(type+' registrado a las '+new Date(now).toLocaleTimeString('es-BO',{hour12:false})+'. Descarga una copia de seguridad para tener respaldo fuera del navegador.')}
+async function addIncident(){let note=$('incNote').value.trim();if(!note){alert('Describe la incidencia antes de guardarla.');return}let ts=$('incDate').value?new Date($('incDate').value).toISOString():isoNow();incidents.unshift({id:rid(),ts,type:$('incType').value,note,proof:$('incProof').value.trim()});$('incNote').value='';$('incProof').value='';await persist();alert('Incidencia guardada.')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function dateFmt(ts){return new Date(ts).toLocaleDateString('es-BO')}
+function timeFmt(ts){return new Date(ts).toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})}
+function delPunch(id){if(confirm('¿Eliminar esta marcación? Descarga una copia antes de modificar el historial.')){punches=punches.filter(x=>x.id!==id);persist()}}
+function delInc(id){if(confirm('¿Eliminar esta incidencia?')){incidents=incidents.filter(x=>x.id!==id);persist()}}
+function render(){let m=$('monthFilter').value;let ps=punches.filter(x=>!m||x.ts.slice(0,7)===m), ins=incidents.filter(x=>!m||x.ts.slice(0,7)===m);$('punchRows').innerHTML=ps.map(x=>`<tr><td>${dateFmt(x.ts)}</td><td>${timeFmt(x.ts)}</td><td><span class="pill ${x.type==='Ingreso'?'in':'out'}">${esc(x.type)}</span></td><td>${esc(x.employee)}</td><td>${esc(x.note)}</td><td class="no-print"><button class="red smallbtn" onclick="delPunch('${x.id}')">Eliminar</button></td></tr>`).join('');$('punchEmpty').style.display=ps.length?'none':'block';$('incRows').innerHTML=ins.map(x=>`<tr><td>${dateFmt(x.ts)} ${timeFmt(x.ts)}</td><td>${esc(x.type)}</td><td>${esc(x.note)}</td><td>${esc(x.proof)}</td><td class="no-print"><button class="red smallbtn" onclick="delInc('${x.id}')">Eliminar</button></td></tr>`).join('');$('incEmpty').style.display=ins.length?'none':'block';$('nPunch').textContent=ps.length;$('nInc').textContent=ins.length;$('nDays').textContent=new Set(ps.map(x=>x.ts.slice(0,10))).size}
+function tick(){$('clock').textContent=new Date().toLocaleTimeString('es-BO',{hour12:false});$('today').textContent=new Date().toLocaleDateString('es-BO',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
+function download(name,blob){let a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+function exportBackup(){let data={app:'Mi Marcado Seguro',version:1,exportedAt:isoNow(),punches,incidents,profile};download('mi-marcado-respaldo-'+new Date().toISOString().slice(0,10)+'.json',new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));localStorage.setItem('miMarcadoLastBackup',isoNow());$('lastBackup').textContent='Copia descargada: '+new Date().toLocaleString('es-BO');$('lastBackup').className='status ok'}
+async function importBackup(e){let f=e.target.files?.[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!d||!Array.isArray(d.punches)||!Array.isArray(d.incidents))throw Error('Formato no reconocido');if(!confirm(`Se encontraron ${d.punches.length} marcaciones y ${d.incidents.length} incidencias. ¿Restaurar esta copia? Se reemplazarán los datos actuales.`))return;punches=d.punches;incidents=d.incidents;profile=d.profile||{};fillProfile();await persist();alert('Copia restaurada. Descarga otra copia para confirmar el respaldo.')}catch(err){alert('No se pudo restaurar: '+err.message)}finally{e.target.value=''}}
+function csvCell(s){return '"'+String(s??'').replace(/"/g,'""')+'"'}
+function exportCSV(){let rows=[['Fecha','Hora','Tipo','Funcionario','Institución','Observación'],...punches.map(x=>[dateFmt(x.ts),timeFmt(x.ts),x.type,x.employee,x.workplace,x.note])];download('mi-marcado-'+new Date().toISOString().slice(0,10)+'.csv',new Blob(['\ufeff'+rows.map(r=>r.map(csvCell).join(';')).join('\r\n')],{type:'text/csv;charset=utf-8'}))}
+async function checkStorage(){let idb=!!db,ls=false;try{localStorage.setItem('__mm_test','1');localStorage.removeItem('__mm_test');ls=true}catch(e){}let persistent='No disponible';try{if(navigator.storage?.persist){let p=await navigator.storage.persisted();if(!p)p=await navigator.storage.persist();persistent=p?'Concedido por el navegador':'No concedido por el navegador'}}catch(e){}let usage='';try{if(navigator.storage?.estimate){let x=await navigator.storage.estimate();usage=` Uso aproximado: ${Math.round((x.usage||0)/1024)} KB.`}}catch(e){}$('storageStatus').textContent=`IndexedDB: ${idb?'disponible':'no disponible'}. Almacenamiento local secundario: ${ls?'disponible':'no disponible'}. Persistencia: ${persistent}.${usage}`;$('storageAlert').textContent=`Estado: IndexedDB ${idb?'disponible':'no disponible'} · copia secundaria ${ls?'disponible':'no disponible'}. Esto no sustituye una copia exportada.`;$('storageAlert').className='alert '+(idb&&ls?'good':'')}
+async function clearAll(){if(!confirm('Esto borrará las marcaciones, incidencias y datos guardados en este dispositivo. ¿Continuar?'))return;if(!confirm('Última confirmación: ¿ya descargaste una copia de seguridad?'))return;punches=[];incidents=[];profile={};await dbDel('all');try{localStorage.removeItem('miMarcadoSafeMirror');localStorage.removeItem('miMarcado_profile')}catch(e){}fillProfile();await persist();alert('Datos locales borrados.')}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.pane').forEach(x=>x.classList.toggle('active',x.id===b.dataset.pane))}));
+$('incDate').value=localDateInput();$('monthFilter').value=new Date().toISOString().slice(0,7);let lb=localStorage.getItem('miMarcadoLastBackup');if(lb){$('lastBackup').textContent='Última copia descargada: '+new Date(lb).toLocaleString('es-BO');$('lastBackup').className='status ok'}tick();setInterval(tick,1000);load();
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+</script>
+</body></html>
